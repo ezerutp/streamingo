@@ -1,5 +1,5 @@
 class Servicio {
-  int id;
+  int? id;
   String nombre;
   String? descripcion;
   String? imagenUrl;
@@ -15,14 +15,32 @@ class Servicio {
     this.deleted = false,
   });
 
-  int get getId => id;
+  Servicio copyWith({
+    int? id,
+    String? nombre,
+    String? descripcion,
+    String? imagenUrl,
+    bool? disponible,
+    bool? deleted,
+  }) {
+    return Servicio(
+      id: id ?? this.id,
+      nombre: nombre ?? this.nombre,
+      descripcion: descripcion ?? this.descripcion,
+      imagenUrl: imagenUrl ?? this.imagenUrl,
+      disponible: disponible ?? this.disponible,
+      deleted: deleted ?? this.deleted,
+    );
+  }
+
+  int? get getId => id;
   String get getNombre => nombre;
   String? get getDescripcion => descripcion;
   String? get getImagenUrl => imagenUrl;
   bool get isDisponible => disponible;
   bool get getDeleted => deleted;
 
-  set setId(int value) => id = value;
+  set setId(int? value) => id = value;
   set setNombre(String value) => nombre = value;
   set setDescripcion(String? value) => descripcion = value;
   set setImagenUrl(String? value) => imagenUrl = value;

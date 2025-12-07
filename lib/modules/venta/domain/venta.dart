@@ -2,7 +2,7 @@ import 'package:streamingo/modules/clientes/domain/cliente.dart';
 import 'package:streamingo/modules/servicios/domain/tipo_servicio.dart';
 
 class Venta {
-  int id;
+  int? id;
   Cliente cliente;
   TipoServicio tipoServicio;
   DateTime fechaInicio;
@@ -22,7 +22,7 @@ class Venta {
     this.deleted = false,
   });
 
-  int get getId => id;
+  int? get getId => id;
   Cliente get getCliente => cliente;
   TipoServicio get getTipoServicio => tipoServicio;
   DateTime get getFechaInicio => fechaInicio;
@@ -31,7 +31,7 @@ class Venta {
   bool get isCancelado => cancelado;
   bool get getDeleted => deleted;
 
-  set setId(int value) => id = value;
+  set setId(int? value) => id = value;
   set setCliente(Cliente value) => cliente = value;
   set setTipoServicio(TipoServicio value) => tipoServicio = value;
   set setFechaInicio(DateTime value) => fechaInicio = value;

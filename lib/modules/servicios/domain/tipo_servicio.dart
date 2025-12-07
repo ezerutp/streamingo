@@ -1,7 +1,7 @@
 import 'package:streamingo/modules/servicios/domain/servicio.dart';
 
 class TipoServicio {
-  int id;
+  int? id;
   String nombre;
   String? descripcion;
   Servicio servicio;
@@ -19,7 +19,27 @@ class TipoServicio {
     this.deleted = false,
   });
 
-  int get getId => id;
+  TipoServicio copyWith({
+    int? id,
+    String? nombre,
+    String? descripcion,
+    Servicio? servicio,
+    double? precio,
+    int? duracionDias,
+    bool? deleted,
+  }) {
+    return TipoServicio(
+      id: id ?? this.id,
+      nombre: nombre ?? this.nombre,
+      descripcion: descripcion ?? this.descripcion,
+      servicio: servicio ?? this.servicio,
+      precio: precio ?? this.precio,
+      duracionDias: duracionDias ?? this.duracionDias,
+      deleted: deleted ?? this.deleted,
+    );
+  }
+
+  int? get getId => id;
   String get getNombre => nombre;
   String? get getDescripcion => descripcion;
   Servicio get getServicio => servicio;
@@ -27,7 +47,7 @@ class TipoServicio {
   int get getDuracionDias => duracionDias;
   bool get getDeleted => deleted;
 
-  set setId(int value) => id = value;
+  set setId(int? value) => id = value;
   set setNombre(String value) => nombre = value;
   set setDescripcion(String? value) => descripcion = value;
   set setServicio(Servicio value) => servicio = value;

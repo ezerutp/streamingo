@@ -1,5 +1,5 @@
 class Cliente {
-  int id;
+  int? id;
   String name;
   String? telefono;
   String? email;
@@ -13,13 +13,29 @@ class Cliente {
     this.deleted = false,
   });
 
-  int get getId => id;
+  Cliente copyWith({
+    int? id,
+    String? name,
+    String? telefono,
+    String? email,
+    bool? deleted,
+  }) {
+    return Cliente(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      telefono: telefono ?? this.telefono,
+      email: email ?? this.email,
+      deleted: deleted ?? this.deleted,
+    );
+  }
+
+  int? get getId => id;
   String get getName => name;
   String? get getTelefono => telefono;
   String? get getEmail => email;
   bool get getDeleted => deleted;
 
-  set setId(int value) => id = value;
+  set setId(int? value) => id = value;
   set setName(String value) => name = value;
   set setTelefono(String? value) => telefono = value;
   set setEmail(String? value) => email = value;

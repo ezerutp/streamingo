@@ -66,5 +66,17 @@ class DatabaseService {
         FOREIGN KEY (tipoServicioId) REFERENCES tipo_servicios (id)
       )
     ''');
+
+    await db.execute('''
+      CREATE TABLE venta_historial (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        ventaId INTEGER NOT NULL,
+        fechaPago TEXT NOT NULL,
+        fechaInicio TEXT NOT NULL,
+        fechaFin TEXT NOT NULL,
+        montoPagado REAL NOT NULL,
+        FOREIGN KEY (ventaId) REFERENCES ventas (id)
+      )
+    ''');
   }
 }

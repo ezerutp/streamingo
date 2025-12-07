@@ -1,7 +1,7 @@
 import 'package:streamingo/modules/venta/domain/venta.dart';
 
 class VentaHistorico {
-  int id;
+  int? id;
   Venta venta;
   DateTime fechaPago;
   DateTime fechaInicio;
@@ -9,7 +9,7 @@ class VentaHistorico {
   double montoPagado;
 
   VentaHistorico({
-    required this.id,
+    this.id,
     required this.venta,
     required this.fechaPago,
     required this.fechaInicio,
@@ -17,14 +17,14 @@ class VentaHistorico {
     required this.montoPagado,
   });
 
-  int get getId => id;
-  int get getVentaId => venta.id;
+  int? get getId => id;
+  int? get getVentaId => venta.id;
   DateTime get getFechaPago => fechaPago;
   DateTime get getFechaInicio => fechaInicio;
   DateTime get getFechaFin => fechaFin;
   double get getMontoPagado => montoPagado;
 
-  set setId(int value) => id = value;
+  set setId(int? value) => id = value;
   set setVentaId(int value) => venta.id = value;
   set setFechaPago(DateTime value) => fechaPago = value;
   set setFechaInicio(DateTime value) => fechaInicio = value;
