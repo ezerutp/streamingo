@@ -21,8 +21,12 @@ class VentaService {
     return await _ventaRepository.getById(id);
   }
 
-  Future<List<Venta>> getAll() async {
-    return await _ventaRepository.getAll();
+  Future<List<Venta>> getVentasCanceladas() async {
+    return await _ventaRepository.getDeleted();
+  }
+
+  Future<List<Venta>> getVentasActivas() async {
+    return await _ventaRepository.getVentasActivas();
   }
 
   Future<int> delete(Venta venta) async {

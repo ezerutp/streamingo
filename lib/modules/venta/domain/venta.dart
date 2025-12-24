@@ -9,10 +9,10 @@ class Venta {
   DateTime fechaFin;
   double monto;
   bool cancelado = false;
-  bool deleted;
+  bool deleted = false;
 
   Venta({
-    required this.id,
+    this.id,
     required this.cliente,
     required this.tipoServicio,
     required this.fechaInicio,

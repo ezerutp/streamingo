@@ -39,12 +39,12 @@ class VentaRepository {
   }
 
   // Obtener todas las ventas no eliminadas
-  Future<List<Venta>> getAll() async {
+  Future<List<Venta>> getVentasActivas() async {
     final db = await _databaseService.database;
     final List<Map<String, dynamic>> maps = await db.query(
       'ventas',
-      where: 'deleted = ?',
-      whereArgs: [0],
+      where: 'deleted = ? and cancelado = ?',
+      whereArgs: [0, 0],
     );
 
     List<Venta> ventas = [];

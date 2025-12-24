@@ -78,5 +78,12 @@ class DatabaseService {
         FOREIGN KEY (ventaId) REFERENCES ventas (id)
       )
     ''');
+
+    await db.execute('''
+      CREATE TABLE config_theme (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        theme TEXT NOT NULL
+      )
+    ''');
   }
 }
