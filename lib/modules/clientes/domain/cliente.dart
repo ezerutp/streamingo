@@ -6,7 +6,7 @@ class Cliente {
   bool deleted = false;
 
   Cliente({
-    required this.id,
+    this.id,
     required this.name,
     this.telefono,
     this.email,

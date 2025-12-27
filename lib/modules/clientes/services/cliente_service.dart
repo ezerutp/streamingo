@@ -11,6 +11,11 @@ class ClienteService {
     return await clientRepo.getAll();
   }
 
+  // Obtener todos los clientes eliminados
+  Future<List<Cliente>> fetchDeletedClientes() async {
+    return await clientRepo.getDeleted();
+  }
+
   // Obtener un cliente por ID
   Future<Cliente?> fetchClienteById(int id) async {
     return await clientRepo.getById(id);

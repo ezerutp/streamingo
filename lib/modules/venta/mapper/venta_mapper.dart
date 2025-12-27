@@ -8,14 +8,14 @@ class VentaMapper {
     dynamic tipoServicio,
   ) {
     return Venta(
-      id: map['id'] as int,
+      id: map['id'],
       cliente: cliente,
       tipoServicio: tipoServicio,
-      fechaInicio: DateTime.parse(map['fechaInicio'] as String),
-      fechaFin: DateTime.parse(map['fechaFin'] as String),
-      monto: map['monto'] as double,
-      cancelado: (map['cancelado'] as int) == 1,
-      deleted: (map['deleted'] as int) == 1,
+      fechaInicio: DateTime.parse(map['fechaInicio']),
+      fechaFin: DateTime.parse(map['fechaFin']),
+      monto: map['monto'],
+      cancelado: map['cancelado'] == 1 ? true : false,
+      deleted: map['deleted'] == 1 ? true : false,
     );
   }
 
@@ -28,8 +28,8 @@ class VentaMapper {
       'fechaInicio': venta.fechaInicio.toIso8601String(),
       'fechaFin': venta.fechaFin.toIso8601String(),
       'monto': venta.monto,
-      'cancelado': venta.cancelado ? 1 : 0,
-      'deleted': venta.deleted ? 1 : 0,
+      'cancelado': venta.cancelado,
+      'deleted': venta.deleted,
     };
   }
 }

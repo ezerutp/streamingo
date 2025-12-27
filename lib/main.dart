@@ -14,9 +14,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'StreaminGo',
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.dark, // tu tema separado
+      theme: AppTheme.dark,
       initialRoute: AppRouter.initialRoute,
-      routes: AppRouter.routes, // navegación centralizada
+      routes: AppRouter.routes,
     );
   }
 }

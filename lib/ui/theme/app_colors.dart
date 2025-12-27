@@ -7,4 +7,11 @@ class AppColors {
   static const Color textPrimary = Color(0xFF333333);
   static const Color textSecondary = Color(0xFF777777);
   static const Color lavander = Color(0xFFE6E6FA);
+
+  static const Color error = Color(0xFFD32F2F);
+  static const Color onPrimary = Color(0xFFFFFFFF);
+  static const Color onSecondary = Color(0xFFFFFFFF);
+  static const Color onSurface = Color(0xFF333333);
+  static const Color onError = Color(0xFFFFFFFF);
+  static const Color cardColor = Color(0xFFFFFFFF);
 }

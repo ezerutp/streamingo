@@ -9,19 +9,15 @@ class AppDrawer extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
-          const DrawerHeader(
-            decoration: BoxDecoration(color: Colors.blue),
+          DrawerHeader(
+            decoration: BoxDecoration(color: Theme.of(context).cardColor),
             child: Text(
               'Menú',
-              style: TextStyle(color: Colors.white, fontSize: 24),
+              style: TextStyle(
+                color: Theme.of(context).primaryColor,
+                fontSize: 24,
+              ),
             ),
-          ),
-          ListTile(
-            leading: const Icon(Icons.home),
-            title: const Text('Inicio'),
-            onTap: () {
-              Navigator.pushReplacementNamed(context, '/home');
-            },
           ),
           ListTile(
             leading: const Icon(Icons.dashboard),

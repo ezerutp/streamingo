@@ -3,43 +3,31 @@ import 'package:flutter/material.dart';
 class TailwindDashboardCard extends StatelessWidget {
   final String title;
   final String subtitle;
-  final int value;
-  final IconData icon;
-  final Color color;
+  final String value;
+  final IconData? icon;
+  final ThemeData? theme;
 
   const TailwindDashboardCard({
     super.key,
     required this.title,
     required this.subtitle,
     required this.value,
-    required this.icon,
-    required this.color,
+    this.icon,
+    this.theme,
   });
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    // Colores dinámicos según tema (Tailwind style)
-    final background =
-        theme.brightness == Brightness.light ? Colors.white : Colors.grey[900];
-
-    final shadowColor =
-        theme.brightness == Brightness.light
-            ? Colors.black.withOpacity(0.05)
-            : Colors.black.withOpacity(0.3);
-
-    final subtitleColor =
-        theme.brightness == Brightness.light
-            ? Colors.grey[600]
-            : Colors.grey[400];
+    final icon = this.icon ?? Icons.star;
+    final theme = this.theme ?? Theme.of(context);
+    final background = theme.cardColor;
+    final shadowColor = theme.primaryColor.withValues(alpha: 0.1);
+    final subtitleColor = theme.primaryColor.withValues(alpha: 0.6);
 
     return Container(
       width: 170,
       height: 200,
-      constraints: const BoxConstraints(
-        minHeight: 160, // evita overflow, permite crecer
-      ),
+      constraints: const BoxConstraints(minHeight: 160),
       decoration: BoxDecoration(
         color: background,
         borderRadius: BorderRadius.circular(16),
@@ -47,7 +35,7 @@ class TailwindDashboardCard extends StatelessWidget {
           BoxShadow(
             color: shadowColor,
             blurRadius: 12,
-            offset: const Offset(0, 4), // estilo shadow-md
+            offset: const Offset(0, 4),
           ),
         ],
       ),
@@ -57,24 +45,21 @@ class TailwindDashboardCard extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // Icono estilo Tailwind (circulito suave)
                   CircleAvatar(
                     radius: 24,
-                    backgroundColor: color.withValues(
-                      alpha: 0.15,
-                    ), // bg-blue-100
-                    child: Icon(icon, color: color, size: 24),
+                    backgroundColor: theme.primaryColor.withValues(alpha: 0.15),
+                    child: Icon(icon, color: theme.primaryColor, size: 24),
                   ),
 
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 12),
 
                   Text(
-                    "$value",
+                    value,
                     style: TextStyle(
                       fontSize: 26,
-                      color: color,
+                      color: theme.primaryColor,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -90,12 +75,13 @@ class TailwindDashboardCard extends StatelessWidget {
             ),
           ),
 
-          // Footer tipo "border-t" de Tailwind
           Container(
             height: 45,
             decoration: BoxDecoration(
               border: Border(
-                top: BorderSide(color: theme.dividerColor.withOpacity(0.3)),
+                top: BorderSide(
+                  color: theme.primaryColor.withValues(alpha: 0.3),
+                ),
               ),
             ),
             alignment: Alignment.center,
@@ -103,7 +89,7 @@ class TailwindDashboardCard extends StatelessWidget {
               title,
               style: TextStyle(
                 fontWeight: FontWeight.w600,
-                color: theme.colorScheme.primary,
+                color: theme.primaryColor,
               ),
             ),
           ),

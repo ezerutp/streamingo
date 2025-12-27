@@ -2,60 +2,99 @@ import 'package:flutter/material.dart';
 import 'package:streamingo/ui/theme/app_colors.dart';
 
 class AppTheme {
-  static ThemeData light = ThemeData(
-    colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-    useMaterial3: true,
+  static ThemeData _build(ColorScheme scheme, {Color? cardColorOverride}) {
+    final base = ThemeData(
+      useMaterial3: true,
+      brightness: scheme.brightness,
+      colorScheme: scheme,
+      scaffoldBackgroundColor: scheme.surface,
+    );
+
+    return base.copyWith(
+      cardColor: cardColorOverride ?? base.cardColor,
+      cardTheme: CardThemeData(
+        color: cardColorOverride ?? base.cardColor,
+        surfaceTintColor: Colors.transparent, // Remove M3 tint
+      ),
+      textTheme: base.textTheme.apply(
+        bodyColor: scheme.onSurface,
+        displayColor: scheme.onSurface,
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: scheme.primary,
+          foregroundColor: scheme.onPrimary,
+        ),
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(foregroundColor: scheme.primary),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          foregroundColor: scheme.primary,
+          side: BorderSide(color: scheme.primary),
+        ),
+      ),
+    );
+  }
+
+  static ThemeData get light => _build(
+    ColorScheme.fromSeed(
+      seedColor: Colors.deepPurple,
+      brightness: Brightness.light,
+    ),
+    cardColorOverride: AppColors.onSurface,
   );
 
-  static ThemeData dark = ThemeData(
-    brightness: Brightness.dark,
-    colorScheme: ColorScheme.fromSeed(
+  static ThemeData get dark => _build(
+    ColorScheme.fromSeed(
       seedColor: Colors.deepPurple,
       brightness: Brightness.dark,
     ),
-    useMaterial3: true,
+    cardColorOverride: AppColors.lavander,
   );
 
-  static ThemeData pastel = ThemeData(
-    colorScheme: ColorScheme.fromSeed(
+  // estilo pastel
+  static ThemeData get pastel => _build(
+    ColorScheme.fromSeed(
       seedColor: Colors.pinkAccent,
-      primary: Colors.pinkAccent,
-      secondary: Colors.lightBlueAccent,
-      tertiary: AppColors.lavander,
       brightness: Brightness.light,
-    ),
-    useMaterial3: true,
-  );
-
-  static ThemeData pastelDark = ThemeData(
-    colorScheme: ColorScheme.fromSeed(
-      seedColor: Colors.pinkAccent,
+    ).copyWith(
       primary: Colors.pinkAccent,
       secondary: Colors.lightBlueAccent,
       tertiary: AppColors.lavander,
+    ),
+    cardColorOverride: Colors.teal,
+  );
+
+  // estilo pastel dark
+  static ThemeData get pastelDark => _build(
+    ColorScheme.fromSeed(
+      seedColor: Colors.pinkAccent,
       brightness: Brightness.dark,
+    ).copyWith(
+      primary: Colors.pinkAccent,
+      secondary: Colors.lightBlueAccent,
+      tertiary: AppColors.lavander,
     ),
-    useMaterial3: true,
+    cardColorOverride: Colors.teal,
   );
 
-  static ThemeData streamingGoTheme = ThemeData(
-    colorScheme: ColorScheme(
-      primary: AppColors.primary,
-      primaryContainer: AppColors.primary,
-      secondary: AppColors.secondary,
-      secondaryContainer: AppColors.secondary,
-      surface: AppColors.background,
-      error: Colors.red,
-      onPrimary: Colors.white,
-      onSecondary: Colors.white,
-      onSurface: AppColors.textPrimary,
-      onError: Colors.white,
+  // estilo streaming go
+  static ThemeData get streamingGoTheme => _build(
+    ColorScheme.fromSeed(
+      seedColor: AppColors.primary,
       brightness: Brightness.light,
+    ).copyWith(
+      primary: AppColors.primary,
+      onPrimary: AppColors.onPrimary,
+      secondary: AppColors.secondary,
+      onSecondary: AppColors.onSecondary,
+      error: AppColors.error,
+      onError: AppColors.onError,
+      surface: AppColors.background,
+      onSurface: AppColors.onSurface,
     ),
-    textTheme: TextTheme(
-      bodyLarge: TextStyle(color: AppColors.textPrimary),
-      bodyMedium: TextStyle(color: AppColors.textSecondary),
-    ),
-    useMaterial3: true,
+    cardColorOverride: AppColors.lavander,
   );
 }

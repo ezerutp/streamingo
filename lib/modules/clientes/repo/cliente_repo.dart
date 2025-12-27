@@ -33,6 +33,7 @@ class ClienteRepository {
     final List<Map<String, dynamic>> maps = await db.query(
       'clientes',
       where: 'deleted = ?',
+      orderBy: 'name ASC',
       whereArgs: [0],
     );
 

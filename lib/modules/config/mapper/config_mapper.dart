@@ -4,7 +4,7 @@ import 'package:streamingo/modules/config/domain/enum_theme.dart';
 class ConfigMapper {
   static ConfigTheme fromMap(Map<String, dynamic> map) {
     return ConfigTheme(
-      id: map['id'] as int?,
+      id: map['id'],
       theme:
           map['theme'] != null ? ThemeKind.values[map['theme'] as int] : null,
     );

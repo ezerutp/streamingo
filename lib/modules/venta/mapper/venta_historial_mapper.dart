@@ -4,12 +4,12 @@ class VentaHistoricoMapper {
   // Convertir un mapa a un objeto VentaHistorico
   static VentaHistorico fromMap(Map<String, dynamic> map, dynamic venta) {
     return VentaHistorico(
-      id: map['id'] as int,
+      id: map['id'],
       venta: venta,
-      fechaPago: DateTime.parse(map['fechaPago'] as String),
-      fechaInicio: DateTime.parse(map['fechaInicio'] as String),
-      fechaFin: DateTime.parse(map['fechaFin'] as String),
-      montoPagado: map['montoPagado'] as double,
+      fechaPago: DateTime.parse(map['fechaPago']),
+      fechaInicio: DateTime.parse(map['fechaInicio']),
+      fechaFin: DateTime.parse(map['fechaFin']),
+      montoPagado: map['montoPagado'],
     );
   }
 

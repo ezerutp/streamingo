@@ -6,7 +6,7 @@ class CardTop extends StatelessWidget {
   final int totalItems;
   final int items;
   final IconData icon;
-  final Color color;
+  final ThemeData theme;
 
   const CardTop({
     super.key,
@@ -15,16 +15,14 @@ class CardTop extends StatelessWidget {
     required this.totalItems,
     required this.items,
     this.icon = Icons.person,
-    this.color = Colors.blue,
+    required this.theme,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 160, // necesario cuando usas Wrap o Grid
-      constraints: const BoxConstraints(
-        minHeight: 140, // evita overflow pero deja crecer
-      ),
+      width: 160,
+      constraints: const BoxConstraints(minHeight: 140),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
@@ -45,8 +43,8 @@ class CardTop extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: 26,
-                  backgroundColor: color.withValues(alpha: 0.12),
-                  child: Icon(icon, color: color, size: 28),
+                  backgroundColor: theme.primaryColor.withValues(alpha: 0.12),
+                  child: Icon(icon, color: theme.primaryColor, size: 28),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
@@ -58,15 +56,15 @@ class CardTop extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
-                          color: color,
+                          color: theme.primaryColor,
                         ),
                       ),
                       const SizedBox(height: 6),
                       Text(
                         subtitle,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 13,
-                          color: Colors.grey,
+                          color: theme.primaryColor,
                         ),
                       ),
                     ],
@@ -78,7 +76,7 @@ class CardTop extends StatelessWidget {
           Container(
             height: 50,
             decoration: BoxDecoration(
-              color: color,
+              color: theme.primaryColor,
               borderRadius: const BorderRadius.only(
                 bottomLeft: Radius.circular(16),
                 bottomRight: Radius.circular(16),
@@ -87,8 +85,8 @@ class CardTop extends StatelessWidget {
             alignment: Alignment.center,
             child: Text(
               title,
-              style: const TextStyle(
-                color: Colors.white,
+              style: TextStyle(
+                color: theme.primaryColor,
                 fontWeight: FontWeight.w600,
               ),
             ),

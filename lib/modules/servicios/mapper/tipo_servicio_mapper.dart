@@ -3,13 +3,13 @@ import 'package:streamingo/modules/servicios/domain/tipo_servicio.dart';
 class TipoServicioMapper {
   static TipoServicio fromMap(Map<String, dynamic> map, dynamic servicio) {
     return TipoServicio(
-      id: map['id'] as int,
-      nombre: map['nombre'] as String,
-      descripcion: map['descripcion'] as String?,
+      id: map['id'],
+      nombre: map['nombre'],
+      descripcion: map['descripcion'],
       servicio: servicio,
-      precio: map['precio'] as double,
-      duracionDias: map['duracionDias'] as int,
-      deleted: map['deleted'] as bool? ?? false,
+      precio: map['precio'],
+      duracionDias: map['duracionDias'],
+      deleted: map['deleted'] == 1 ? true : false,
     );
   }
 
