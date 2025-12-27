@@ -2,27 +2,41 @@ import 'package:flutter/material.dart';
 import 'package:streamingo/modules/clientes/domain/cliente.dart';
 import 'package:streamingo/modules/clientes/services/cliente_service.dart';
 
-class AddClienteForm extends StatefulWidget {
+class ClienteForm extends StatefulWidget {
   final ClienteService clienteService;
-  final VoidCallback? onClienteAdded;
+  final VoidCallback? onClienteSaved;
+  final Cliente? cliente; // null = modo agregar, not null = modo editar
 
-  const AddClienteForm({
+  const ClienteForm({
     super.key,
     required this.clienteService,
-    this.onClienteAdded,
+    this.onClienteSaved,
+    this.cliente,
   });
 
   @override
-  State<AddClienteForm> createState() => _AddClienteFormState();
+  State<ClienteForm> createState() => _ClienteFormState();
 }
 
-class _AddClienteFormState extends State<AddClienteForm> {
+class _ClienteFormState extends State<ClienteForm> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _telefonoController = TextEditingController();
   final _emailController = TextEditingController();
 
   bool _isLoading = false;
+  bool get _isEditMode => widget.cliente != null;
+
+  @override
+  void initState() {
+    super.initState();
+    // Pre-llenar campos si estamos en modo edición
+    if (_isEditMode) {
+      _nameController.text = widget.cliente!.name;
+      _telefonoController.text = widget.cliente!.telefono ?? '';
+      _emailController.text = widget.cliente!.email ?? '';
+    }
+  }
 
   @override
   void dispose() {
@@ -42,8 +56,8 @@ class _AddClienteFormState extends State<AddClienteForm> {
     });
 
     try {
-      final newCliente = Cliente(
-        id: null,
+      final clienteData = Cliente(
+        id: _isEditMode ? widget.cliente!.id : null,
         name: _nameController.text.trim(),
         telefono:
             _telefonoController.text.trim().isEmpty
@@ -53,27 +67,37 @@ class _AddClienteFormState extends State<AddClienteForm> {
             _emailController.text.trim().isEmpty
                 ? null
                 : _emailController.text.trim(),
-        deleted: false,
+        deleted: _isEditMode ? widget.cliente!.deleted : false,
       );
 
-      await widget.clienteService.createCliente(newCliente);
+      if (_isEditMode) {
+        await widget.clienteService.modifyCliente(clienteData);
+      } else {
+        await widget.clienteService.createCliente(clienteData);
+      }
 
       if (mounted) {
         // Mostrar mensaje de éxito
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Cliente agregado exitosamente'),
+          SnackBar(
+            content: Text(
+              _isEditMode
+                  ? 'Cliente actualizado exitosamente'
+                  : 'Cliente agregado exitosamente',
+            ),
             backgroundColor: Colors.green,
           ),
         );
 
-        // Limpiar formulario
-        _nameController.clear();
-        _telefonoController.clear();
-        _emailController.clear();
+        // Limpiar formulario solo si es modo agregar
+        if (!_isEditMode) {
+          _nameController.clear();
+          _telefonoController.clear();
+          _emailController.clear();
+        }
 
         // Callback para actualizar la lista de clientes
-        widget.onClienteAdded?.call();
+        widget.onClienteSaved?.call();
 
         // Cerrar el formulario si está en un diálogo
         Navigator.of(context).pop();
@@ -82,7 +106,11 @@ class _AddClienteFormState extends State<AddClienteForm> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Error al agregar cliente: $e'),
+            content: Text(
+              _isEditMode
+                  ? 'Error al actualizar cliente: $e'
+                  : 'Error al agregar cliente: $e',
+            ),
             backgroundColor: Colors.red,
           ),
         );
@@ -109,7 +137,7 @@ class _AddClienteFormState extends State<AddClienteForm> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              'Nuevo cliente',
+              _isEditMode ? 'Editar cliente' : 'Nuevo cliente',
               style: theme.textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
@@ -210,7 +238,7 @@ class _AddClienteFormState extends State<AddClienteForm> {
                             width: 20,
                             child: CircularProgressIndicator(strokeWidth: 2),
                           )
-                          : const Text('Guardar'),
+                          : Text(_isEditMode ? 'Actualizar' : 'Guardar'),
                 ),
               ],
             ),
@@ -221,11 +249,40 @@ class _AddClienteFormState extends State<AddClienteForm> {
   }
 }
 
-// Función helper para mostrar el formulario en un diálogo
+// Función helper para mostrar el formulario en modo AGREGAR
 void showAddClienteDialog({
   required BuildContext context,
   required ClienteService clienteService,
   VoidCallback? onClienteAdded,
+}) {
+  showClienteFormDialog(
+    context: context,
+    clienteService: clienteService,
+    onClienteSaved: onClienteAdded,
+  );
+}
+
+// Función helper para mostrar el formulario en modo EDITAR
+void showEditClienteDialog({
+  required BuildContext context,
+  required ClienteService clienteService,
+  required Cliente cliente,
+  VoidCallback? onClienteUpdated,
+}) {
+  showClienteFormDialog(
+    context: context,
+    clienteService: clienteService,
+    cliente: cliente,
+    onClienteSaved: onClienteUpdated,
+  );
+}
+
+// Función genérica para mostrar el formulario
+void showClienteFormDialog({
+  required BuildContext context,
+  required ClienteService clienteService,
+  Cliente? cliente,
+  VoidCallback? onClienteSaved,
 }) {
   showDialog(
     context: context,
@@ -236,9 +293,10 @@ void showAddClienteDialog({
           ),
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 500),
-            child: AddClienteForm(
+            child: ClienteForm(
               clienteService: clienteService,
-              onClienteAdded: onClienteAdded,
+              cliente: cliente,
+              onClienteSaved: onClienteSaved,
             ),
           ),
         ),

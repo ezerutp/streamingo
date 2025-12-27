@@ -48,6 +48,7 @@ class ClienteRepository {
     final List<Map<String, dynamic>> maps = await db.query(
       'clientes',
       where: 'deleted = ?',
+      orderBy: 'name ASC',
       whereArgs: [1],
     );
 
@@ -71,6 +72,18 @@ class ClienteRepository {
   // Actualizar cliente
   Future<int> update(Cliente cliente) async {
     final db = await _databaseService.database;
+    return await db.update(
+      'clientes',
+      ClienteMapper.toMap(cliente),
+      where: 'id = ?',
+      whereArgs: [cliente.getId],
+    );
+  }
+
+  // Restaurar cliente (marcar como no eliminado)
+  Future<int> restore(Cliente cliente) async {
+    final db = await _databaseService.database;
+    cliente.setDeleted = false;
     return await db.update(
       'clientes',
       ClienteMapper.toMap(cliente),

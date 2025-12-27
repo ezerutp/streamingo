@@ -35,4 +35,9 @@ class ClienteService {
   Future<int> modifyCliente(Cliente cliente) async {
     return await clientRepo.update(cliente);
   }
+
+  // Restaurar cliente eliminado
+  Future<int> restoreCliente(Cliente cliente) async {
+    return await clientRepo.restore(cliente);
+  }
 }
