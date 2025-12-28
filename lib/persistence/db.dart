@@ -31,10 +31,7 @@ class DatabaseService {
     await db.execute('''
       CREATE TABLE servicios (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        nombre TEXT NOT NULL,
-        descripcion TEXT,
-        imagenUrl TEXT,
-        disponible INTEGER DEFAULT 1,
+        nombre TEXT NOT NULL UNIQUE,
         deleted INTEGER DEFAULT 0
       )
     ''');

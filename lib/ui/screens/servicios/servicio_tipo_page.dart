@@ -15,6 +15,10 @@ class _ServicioTipoState extends State<ServicioTipo> {
       appBar: AppBar(title: const Text('Servicio Tipo')),
       body: const Center(child: Text('Servicio Tipo Page')),
       endDrawer: const AppDrawer(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => {Navigator.pushNamed(context, "/clientes")},
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }

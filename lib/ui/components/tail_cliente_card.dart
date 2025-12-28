@@ -48,7 +48,14 @@ class TailwindClienteCard extends StatelessWidget {
                 SizedBox(width: 8),
                 Text(
                   cliente.name.toUpperCase(),
-                  style: TextStyle(color: Theme.of(context).primaryColor),
+                  style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                    decoration:
+                        isDeleted
+                            ? TextDecoration.lineThrough
+                            : TextDecoration.none,
+                    decorationColor: Theme.of(context).primaryColor,
+                  ),
                 ),
               ],
             ),
